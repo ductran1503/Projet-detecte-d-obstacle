@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{2ede5d07-d806-4e01-aa56-30b236e85666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="local_interfaces">
+      <UniqueIdentifier>{46c30c97-01a4-4d0d-8c47-49579cd5dfde}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\dectection d%27obstacle\RTmap\test\pack1.u\pack1.pckinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\dectection d%27obstacle\RTmap1\RTmap\test\pack1.u\local_interfaces\DetectionObstacle.h">
+      <Filter>local_interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\dectection d%27obstacle\RTmap1\RTmap\test\pack1.u\local_interfaces\maps_convertion.h">
+      <Filter>local_interfaces</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\dectection d%27obstacle\RTmap1\RTmap\test\pack1.u\src\DetectionObstacle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\..\dectection d%27obstacle\RTmap1\RTmap\test\pack1.u\src\maps_convertion.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
