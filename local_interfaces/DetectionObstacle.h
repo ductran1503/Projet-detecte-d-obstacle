@@ -15,13 +15,6 @@
 using namespace cv;
 using namespace std;
 
-#define MIN_INTENSITY 10
-#define MIN_STATURATION 10
-#define MIN_PIXELHUE 10 //20
-#define MIN_PIXELINT 10 //30
-#define ecartFenetre 30
-#define hauteurFenetre 120
-#define angleFenetre 45
 
 void resetHistogram(long A[]);
 void filterAverage(long histogram[], int radius, int size);

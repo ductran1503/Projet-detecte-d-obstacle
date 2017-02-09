@@ -17,6 +17,7 @@ MAPS_END_INPUTS_DEFINITION
 // Use the macros to declare the outputs
 MAPS_BEGIN_OUTPUTS_DEFINITION(MAPSconvertion)
     MAPS_OUTPUT("image_out",MAPS::IplImage,NULL,NULL,1)
+	MAPS_OUTPUT("image_out1", MAPS::IplImage, NULL, NULL, 1)
 MAPS_END_OUTPUTS_DEFINITION
 
 // Use the macros to declare the properties
@@ -45,10 +46,11 @@ MAPS_COMPONENT_DEFINITION(MAPSconvertion,"convertion","1.0",128,
 
 
 
-bool m_firstTime = true;
+bool m_firstTime;
 //Initialization: Birth() will be called once at diagram execution startup.			  
 void MAPSconvertion::Birth()
 {
+	m_firstTime = true;
     // Reports this information to the RTMaps console. You can remove this line if you know when Birth() is called in the component lifecycle.
     //ReportInfo("Passing through Birth() method");
 }
@@ -77,25 +79,33 @@ void MAPSconvertion::Core()
 	MAPSIOElt* ioEltIn1 = StartReading(Input("image_in"));
 	if (ioEltIn1 == NULL)
 		return;
+	IplImage iplImg = ioEltIn1->IplImage();
 	if (m_firstTime) // First time we pass into Core
 	{
 		m_firstTime = false; // We won't pass anymore
-		Output(0).AllocOutputBuffer(ioEltIn1->BufferSize()); // Allocate the buffer
+		Output(1).AllocOutputBufferIplImage(iplImg);
+		Output(0).AllocOutputBufferIplImage(iplImg);
+		//Output(0).AllocOutputBuffer(ioEltIn1->BufferSize()); // Allocate the buffer
+		//Output(1).AllocOutputBuffer(ioEltIn1->BufferSize()); // Allocate the buffer
 	}
 
-	IplImage iplImg = ioEltIn1->IplImage();
 	Mat img(&iplImg);
 	Mat detection = detect(img, GetIntegerProperty("ecartFenetre"), GetIntegerProperty("hauteurFenetre"), 60, GetIntegerProperty("MIN_INTENSITY"), GetIntegerProperty("MIN_STATURATION"), GetIntegerProperty("MIN_PIXELHUE"), GetIntegerProperty("MIN_PIXELINT"));
 	IplImage* ipl_detection = cvCloneImage(&(IplImage)detection);
 
 	MAPSIOElt* ioEltOut1 = StartWriting(Output("image_out"));
-	//ioEltOut1->IplImage() = ioEltIn1->IplImage();
+	MAPSIOElt* ioEltOut2 = StartWriting(Output("image_out1"));
+	ioEltOut2->IplImage() = ioEltIn1->IplImage();
 	ioEltOut1->IplImage() = *ipl_detection;
+
 	ioEltOut1->Timestamp() = ioEltIn1->Timestamp();
+	ioEltOut2->Timestamp() = ioEltIn1->Timestamp();
     // Sleeps during 500 milliseconds (500000 microseconds).
 	//This line will most probably have to be removed when you start programming your component.
 	// Replace it with another blocking function. (StartReading?)
+	//cvReleaseImage(&ipl_detection);
 	StopWriting(ioEltOut1);
+	StopWriting(ioEltOut2);
 }
 
 //De-initialization: Death() will be called once at diagram execution shutdown.
